@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Validation & Metrics</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <main class="main-content">
+    <div class="topbar">
+      <div>
+        <h1>Validation & Metrics</h1>
+        <p>Detailed landmark and asymmetry analysis</p>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" onclick="window.location.href='/'">Back to Dashboard</button>
+      </div>
+    </div>
+
+    <section class="panel validation-detail-page">
+      <div class="validation-detail-grid">
+
+        <div>
+          <h3>Image & Landmark Visualization</h3>
+          <img id="detailOverlayImage" class="detail-overlay-image" src="" alt="Validation overlay">
+        </div>
+
+        <div>
+          <h3>Asymmetry Metrics</h3>
+
+          <div class="metrics-box">
+            <div class="kv"><span>Class</span><strong id="detailClass">—</strong></div>
+            <div class="kv"><span>Status</span><strong id="detailStatus">—</strong></div>
+            <div class="kv"><span>Predicted Severity</span><strong id="detailSeverity">—</strong></div>
+            <div class="kv"><span>Predicted Grade</span><strong id="detailPredictedGrade">—</strong></div>
+            <div class="kv"><span>Detected Side</span><strong id="detailDetectedSide">—</strong></div>
+            <div class="kv"><span>Quality Note</span><strong id="detailQualityNote">—</strong></div>
+            <div class="kv"><span>Face Detected</span><strong id="detailFaceDetected">—</strong></div>
+            <div class="kv"><span>Landmarks</span><strong id="detailLandmarks">—</strong></div>
+            <div class="kv"><span>Resolution</span><strong id="detailResolution">—</strong></div>
+
+            <h4>Scores</h4>
+
+            <div class="kv"><span>Mouth Asymmetry</span><strong id="detailMouth">—</strong></div>
+            <div class="kv"><span>Eye Asymmetry</span><strong id="detailEye">—</strong></div>
+            <div class="kv"><span>Eyebrow Asymmetry</span><strong id="detailBrow">—</strong></div>
+            <div class="kv"><span>Global Symmetry Error</span><strong id="detailGlobal">—</strong></div>
+            <div class="kv highlight"><span>Composite Score</span><strong id="detailComposite">—</strong></div>
+            <div class="kv"><span>Expected Range</span><strong id="detailRange">—</strong></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/validation_metrics.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synthetic Facial Palsy Dataset Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><img src="{{ url_for('static', filename='images/xiscoB.png') }}" width="40" height="40"/></div>
+        <div>
+          <div class="brand-title">FACIAL PALSY</div>
+          <div class="brand-subtitle">GENERATOR</div>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item active" data-page="dashboard">Dashboard</a>
+        <a class="menu-item" data-page="generate">Generate Images</a>
+        <a class="menu-item" data-page="browser">Dataset Browser</a>
+        <a class="menu-item" data-page="validation">Validation & Metrics</a>
+        <a class="menu-item" data-page="stats">Statistics & Analysis</a>
+        <a class="menu-item" data-page="train">Train & Evaluate</a>
+        <a class="menu-item" data-page="export">Export Dataset</a>
+        <a class="menu-item" data-page="logs">Logs</a>
+      </nav>
+
+      <div class="status-card panel">
+        <h4>System Status</h4>
+        <p class="online">● All systems operational</p>
+
+        <div class="usage-block">
+          <div class="usage-top"><span>GPU</span><span id="gpuUsageValue">37%</span></div>
+          <div class="usage-name" id="gpuName">NVIDIA RTX 3060</div>
+          <div class="progress"><div id="gpuBar"></div></div>
+        </div>
+
+        <div class="usage-block">
+          <div class="usage-top"><span>RAM Usage</span><span id="ramUsageValue">39%</span></div>
+          <div class="progress"><div id="ramBar"></div></div>
+        </div>
+
+        <div class="usage-block">
+          <div class="usage-top"><span>Disk Usage</span><span id="diskUsageValue">25%</span></div>
+          <div class="progress"><div id="diskBar"></div></div>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 Facial Palsy Generator</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1>Synthetic Facial Image Generation for Facial Palsy</h1>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn">Home</button>
+          <button class="icon-btn">Settings</button>
+          <button class="icon-btn">Help</button>
+          <button class="icon-btn">About</button>
+          <button id="themeToggleBtn" class="icon-btn theme-toggle-btn" type="button">
+            <span id="themeIcon">☀️</span>
+            <span id="themeText">Light</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="stats-grid" id="statsGrid"></section>
+
+      <section class="main-grid dashboard-main-grid">
+
+        <!-- COLUMN 1: CONTROL PANEL -->
+        <div class="panel control-panel">
+          <div class="panel-header">
+            <h3>Facial Condition (Class)</h3>
+          </div>
+
+          <div class="form-group">
+            <label for="classSelect">Condition</label>
+            <select id="classSelect">
+              <option value="All">All Classes</option>
+              <option value="Healthy">Healthy</option>
+              <option value="Mild_Palsy">Mild Facial Palsy</option>
+              <option value="Moderate_Palsy">Moderate Facial Palsy</option>
+              <option value="Severe_Palsy">Severe Facial Palsy</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="imageCount">Images Per Class</label>
+            <input type="number" id="imageCount" value="5" min="1" max="50">
+          </div>
+
+          <div class="form-group">
+            <label for="promptInput">Description</label>
+            <textarea id="promptInput" rows="5" readonly></textarea>
+          </div>
+
+          <div class="mini-stats">
+            <div><span>Total to Images to Generate</span><strong id="totalToLoadText">—</strong></div>
+          </div>
+
+          <button id="generatePreviewBtn" class="primary-btn">
+            Generate Images
+          </button>
+
+          <button id="clearPreviewBtn" class="secondary-btn">
+            Clear Preview
+          </button>
+        </div>
+
+
+        <!-- COLUMN 2: GENERATED IMAGES -->
+        <div class="panel generated-panel">
+          <div class="panel-header inline-header">
+            <h3>Generation Preview</h3>
+            <span id="loadedImageCount">0 images loaded</span>
+          </div>
+
+          <div id="generatedPreviewGrid" class="generated-preview-grid empty-preview">
+            <p>No generated images loaded yet.</p>
+          </div>
+
+          <div class="panel-actions">
+            <button id="analyzeLoadedImagesBtn" class="primary-btn">Analyze Images</button>
+            <!-- <button id="viewAllImagesBtn" class="secondary-btn">View All Images</button> -->
+            <!-- <button id="openOutputFolderBtn" class="secondary-btn">Open Output Folder</button> -->
+
+            <button id="exportFinalDatasetBtn" class="secondary-btn" type="button">Export Final Dataset</button>
+            
+          </div>
+        </div>
+
+
+        <!-- COLUMN 3: VALIDATION PANEL -->
+        <div class="panel validation-panel">
+          <div class="panel-header">
+            <h3>Validation & Asymmetry Metrics</h3>
+          </div>
+
+          <div class="validation-content-grid">
+
+            <!-- Left: Image Preview -->
+            <div class="selected-image-box empty-selected-box" id="selectedImageBox">
+              <p>No image selected</p>
+              <img id="selectedImage" src="" alt="Selected face preview" class="hidden" />
+            </div>
+
+            <!-- Right: Details + Metrics -->
+            <div class="metrics-box">
+              <div class="kv"><strong id="selectedClassName">—</strong></div>
+              <div class="kv"><span>Status</span><strong id="imageStatus">Not analysed</strong></div>
+              <div class="kv"><span>Predicted Severity</span><strong id="predictedSeverity">—</strong></div>
+              <div class="kv"><span>Predicted Grade</span><strong id="predictedGradeText">—</strong></div>
+              <div class="kv"><span>Face Detected</span><strong id="faceDetected">—</strong></div>
+              <div class="kv"><span>Landmarks</span><strong id="landmarksCount">—</strong></div>
+              <div class="kv"><span>Resolution</span><strong id="selectedResolution">—</strong></div>
+
+              <h4>Asymmetry Scores</h4>
+
+              <div class="kv"><span>Mouth Asymmetry</span><strong id="mouthMetric">—</strong></div>
+              <div class="kv"><span>Eye Asymmetry</span><strong id="eyeMetric">—</strong></div>
+              <div class="kv"><span>Eyebrow Asymmetry</span><strong id="browMetric">—</strong></div>
+              <div class="kv"><span>Global Symmetry Error</span><strong id="globalMetric">—</strong></div>
+              <div class="kv highlight"><span>Composite Palsy Score</span><strong id="compositeMetric">—</strong></div>
+              <div class="kv"><span>Expected Range</span><strong id="expectedRange">—</strong></div>
+            </div>
+
+          </div>
+          <br/>
+
+          <a href="details.html" target="_blank" rel="noopener noreferrer" style="text-decoration: none; width: 100%;">
+            <button id="analyseImageBtn" class="primary-btn full-btn">
+              View Details
+            </button>
+          </a>
+        </div>
+
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel chart-panel">
+          <h3>Dataset Distribution</h3>
+          <div class="chart-wrap">
+            <canvas id="distributionChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel progress-panel">
+          <h3>Generation Progress</h3>
+          <div class="progress-item">
+            <div class="progress-label-row"><span>Overall Progress</span><span id="overallProgressText">71.99%</span></div>
+            <div class="progress"><div id="overallProgressBar"></div></div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-label-row"><span>Current Class Progress</span><span id="classProgressText">73.20%</span></div>
+            <div class="progress"><div id="classProgressBar"></div></div>
+          </div>
+          <div class="triple-stats">
+            <div><span>Time Elapsed</span><strong id="elapsedTime">02:45:18</strong></div>
+            <div><span>Estimated Remaining</span><strong id="remainingTime">01:03:42</strong></div>
+            <div><span>Images / Min</span><strong id="imagesPerMin">8.7</strong></div>
+          </div>
+        </div>
+
+        <div class="panel quick-actions-panel">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions-grid">
+            <button class="quick-card">Dataset Browser</button>
+            <button class="quick-card">Statistics & Analysis</button>
+            <button class="quick-card">Train & Evaluate Model</button>
+            <button class="quick-card">Export Dataset</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-bar">
+        <span id="modelName">Model: Stable Diffusion XL</span>
+        <span id="resolutionValue">Resolution: 512x512</span>
+        <span id="guidanceScale">Guidance Scale: 7.5</span>
+        <span id="stepsValue">Steps: 30</span>
+        <span id="connectionState" class="connected">Connected</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="loaderOverlay" class="loader-overlay hidden">
+    <div class="loader-card">
+      <div class="youtube-loader">
+        <div id="loaderProgress" class="youtube-loader-bar"></div>
+      </div>
+
+      <h3 id="loaderTitle">Generating in progress...</h3>
+      <p id="loaderText">Preparing synthetic image preview</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
