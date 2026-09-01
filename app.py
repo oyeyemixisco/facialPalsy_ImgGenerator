@@ -150,6 +150,21 @@ def api_dataset_preview():
 
     images = get_preview_images(class_name=class_name, limit=limit)
 
+    print("\n=== DATASET PATH DEBUG ===")
+    print("BASE_DIR:", BASE_DIR)
+    print("DATASET_DIR:", DATASET_DIR)
+    print("DATASET EXISTS:", DATASET_DIR.exists())
+    print("DATASET DIR CONTENTS:", list(DATASET_DIR.iterdir()) if DATASET_DIR.exists() else "NOT FOUND")
+    
+    healthy_dir = DATASET_DIR / "Healthy"
+    print("HEALTHY DIR:", healthy_dir)
+    print("HEALTHY EXISTS:", healthy_dir.exists())
+    
+    if healthy_dir.exists():
+        print("HEALTHY FILES:", list(healthy_dir.glob("*"))[:10])
+    
+    print("==========================\n")
+
     return jsonify({
         "success": True,
         "class_name": class_name,
