@@ -3,6 +3,11 @@ import csv
 import shutil
 from datetime import datetime
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+DATASET_DIR = BASE_DIR / "datasets" / "kaggle_generated"
+
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from src.metrics import analyse_facial_palsy_image
 
