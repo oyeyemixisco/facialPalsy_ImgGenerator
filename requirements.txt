@@ -1,1 +1,4 @@
 Flask==3.0.3
+gunicorn
+mediapipe>=0.10.0
+opencv-python-headless
