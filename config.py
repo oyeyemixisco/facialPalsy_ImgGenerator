@@ -11,8 +11,8 @@ FINAL_DATASET_DIR = os.path.join(BASE_DIR, "datasets", "Final_Synthetic_Facial_P
 VALID_IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp")
 
 FACIAL_PALSY_CLASSES = [
-    "Healthy",
-    "Mild_Palsy",
-    "Moderate_Palsy",
-    "Severe_Palsy"
+    "healthy",
+    "mild_palsy",
+    "moderate_palsy",
+    "severe_palsy"
 ]
