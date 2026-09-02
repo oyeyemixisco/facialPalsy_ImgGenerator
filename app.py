@@ -25,8 +25,8 @@ app = Flask(__name__)
 
 SESSION_ANALYSIS_RESULTS = {}
 
-RAW_DATASET_DIR = os.path.join("datasets", "kaggle_generated")
-FINAL_GRADED_DATASET_DIR = os.path.join("datasets", "final_graded_dataset")
+RAW_DATASET_DIR = BASE_DIR / "datasets" / "kaggle_generated"
+FINAL_GRADED_DATASET_DIR = BASE_DIR / "datasets" / "final_graded_dataset"
 
 FINAL_GRADE_CLASSES = [
     "Grade_I_Normal",
@@ -78,7 +78,7 @@ def get_all_raw_dataset_images():
 
 @app.route("/datasets/kaggle_generated/<class_name>/<filename>")
 def serve_generated_image(class_name, filename):
-    folder = os.path.join("datasets", "kaggle_generated", class_name)
+    folder = DATASET_DIR / class_name
     return send_from_directory(folder, filename)
 
 
@@ -207,12 +207,7 @@ def api_validate_image():
             "message": "class_name and filename are required."
         }), 400
 
-    image_path = os.path.join(
-        "datasets",
-        "kaggle_generated",
-        class_name,
-        filename
-    )
+    image_path = DATASET_DIR / class_name / filename
 
     if not os.path.exists(image_path):
         return jsonify({
@@ -259,12 +254,7 @@ def api_analyze_loaded_images():
         if not class_name or not filename:
             continue
 
-        image_path = os.path.join(
-            "datasets",
-            "kaggle_generated",
-            class_name,
-            filename
-        )
+        image_path = DATASET_DIR / class_name / filename
 
         if not os.path.exists(image_path):
             continue
@@ -339,12 +329,7 @@ def api_validation_detail():
             "message": "class_name and filename are required."
         }), 400
 
-    image_path = os.path.join(
-        "datasets",
-        "kaggle_generated",
-        class_name,
-        filename
-    )
+    image_path = DATASET_DIR / class_name / filename
 
     if not os.path.exists(image_path):
         return jsonify({
