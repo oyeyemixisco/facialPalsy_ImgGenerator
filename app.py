@@ -53,7 +53,7 @@ def ensure_final_grade_folders():
 
 
 def get_all_raw_dataset_images():
-    raw_classes = ["Healthy", "Mild_Palsy", "Moderate_Palsy", "Severe_Palsy"]
+    raw_classes = ["healthy", "mild_palsy", "moderate_palsy", "severe_palsy"]
 
     image_records = []
 
