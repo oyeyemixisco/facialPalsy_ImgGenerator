@@ -1,13 +1,18 @@
 import os
 import random
 import shutil
+from pathlib import Path
+
 from config import (
-    KAGGLE_GENERATED_DIR,
-    ACCEPTED_DIR,
-    REJECTED_DIR,
     FACIAL_PALSY_CLASSES,
     VALID_IMAGE_EXTENSIONS
 )
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+KAGGLE_GENERATED_DIR = BASE_DIR / "datasets" / "kaggle_generated"
+ACCEPTED_DIR = BASE_DIR / "datasets" / "accepted"
+REJECTED_DIR = BASE_DIR / "datasets" / "rejected"
 
 
 def ensure_dataset_dirs():
