@@ -777,16 +777,16 @@ def grade_to_display_name(grade):
 
 def get_expected_severity(class_name):
     
-    if class_name == "Healthy":
+    if class_name == "healthy":
         return "Healthy"
 
-    if "Mild_Palsy" in class_name:
+    if "mild_palsy" in class_name:
         return "Mild"
 
-    if "Moderate_Palsy" in class_name:
+    if "moderate_palsy" in class_name:
         return "Moderate"
 
-    if "Severe_Palsy" in class_name:
+    if "severe_palsy" in class_name:
         return "Severe"
 
     return "Unknown"
@@ -851,31 +851,31 @@ def make_validation_decision(
     if predicted_grade in acceptable_grades:
         return f"Generated Image Accepted - {predicted_grade_display}"
 
-    if class_name == "Healthy" and predicted_grade == "Grade_II_Mild":
+    if class_name == "healthy" and predicted_grade == "Grade_II_Mild":
         return "Needs Review - Generation mismatch: Healthy image shows mild asymmetry"
 
-    if class_name == "Mild_Palsy" and predicted_grade == "Grade_I_Normal":
+    if class_name == "mild_palsy" and predicted_grade == "Grade_I_Normal":
         return "Generated Image Accepted - Mild_Palsy sample appears near-normal, classified as Grade I - Normal"
 
-    if class_name == "Mild_Palsy" and predicted_grade == "Grade_III_Moderate":
+    if class_name == "mild_palsy" and predicted_grade == "Grade_III_Moderate":
         return "Needs Review - Generation mismatch: Mild palsy image appears closer to Grade III Moderate"
 
-    if class_name == "Moderate_Palsy" and predicted_grade == "Grade_II_Mild":
+    if class_name == "moderate_palsy" and predicted_grade == "Grade_II_Mild":
         return "Needs Review - Generation mismatch: Moderate palsy image appears closer to Grade II Mild"
 
-    if class_name == "Moderate_Palsy" and predicted_grade == "Grade_V_Severe":
+    if class_name == "moderate_palsy" and predicted_grade == "Grade_V_Severe":
         return "Needs Review - Generation mismatch: Moderate palsy image appears closer to Grade V Severe"
 
-    if class_name == "Severe_Palsy" and predicted_grade == "Grade_III_Moderate":
+    if class_name == "severe_palsy" and predicted_grade == "Grade_III_Moderate":
         return "Needs Review - Generation mismatch: Severe palsy image appears closer to Grade III Moderate"
     
-    if class_name == "Severe_Palsy" and predicted_grade == "Grade_I_Normal":
+    if class_name == "severe_palsy" and predicted_grade == "Grade_I_Normal":
         return (
             "Needs Review - Intended Severe_Palsy, but neutral-frame metrics suggest "
             f"{predicted_grade_display}; expression frame required"
         )
 
-    if class_name == "Severe_Palsy" and predicted_grade == "Grade_II_Mild":
+    if class_name == "severe_palsy" and predicted_grade == "Grade_II_Mild":
         return (
             "Needs Review - Generation mismatch: intended Severe_Palsy, "
             f"but Validation analysis suggests {predicted_grade_display}"
@@ -1021,21 +1021,21 @@ def analyse_facial_palsy_image(image_path, class_name):
 
 def expected_grades_for_original_class(class_name):
     mapping = {
-        "Healthy": [
+        "healthy": [
             "Grade_I_Normal"
         ],
 
-        "Mild_Palsy": [
+        "mild_palsy": [
             "Grade_I_Normal",
             "Grade_II_Mild"
         ],
 
-        "Moderate_Palsy": [
+        "moderate_palsy": [
             "Grade_III_Moderate",
             "Grade_IV_Moderate_Severe"
         ],
 
-        "Severe_Palsy": [
+        "severe_palsy": [
             "Grade_IV_Moderate_Severe",
             "Grade_V_Severe",
             "Grade_VI_Total_Paralysis"
